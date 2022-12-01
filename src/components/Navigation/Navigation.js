@@ -47,9 +47,9 @@ function Navigation(props) {
           </Link>
         )}
         {location.pathname === "/" && (
-          <button className="header__element header__element_button">
+          <Link className="header__element header__element_button" to="/signin">
             Войти
-          </button>
+          </Link>
         )}
         {location.pathname === "/movies" && (
           <Link className="header__profile header__profile_hidden"></Link>

@@ -1,7 +1,9 @@
 .movies-cards {
   margin: 0 auto;
   margin-top: 10px;
+  background-color: FFFFFF;
 }
+
 
 .movies__list {
   padding: 0;
@@ -10,7 +12,6 @@
   gap: 37px 24px;
   box-sizing: border-box;
   margin-top: 70px;
-  max-width: 1086px;
 }
 
 @media screen and (max-width: 768px) {
@@ -28,6 +29,7 @@
       /* column-gap: 14px; */
       row-gap: 14px;
       margin-bottom: 30px;
+      margin-top: 50px;
     }
   }
 
@@ -48,6 +50,7 @@
   font-weight: 500;
   font-size: 12px;
   line-height: 15px;
+  border-radius: 6px;
 }
 
 @media screen and (max-width: 320px) {

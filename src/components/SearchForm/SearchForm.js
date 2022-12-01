@@ -19,17 +19,17 @@ function SearchForm(props) {
           // value={props.checkboxValue}
           // onChange={props.checkboxOnChange}
         ></input>
-        {props.checkboxValue ? (
+        {/* {props.checkboxValue ? ( */}
           <label
-            htmlFor="checkbox"
+            // htmlFor="checkbox"
             className="checkbox__style checkbox__active"
           ></label>
-        ) : (
-          <label
+        {/* ) : ( */}
+          {/* <label
             htmlFor="checkbox"
             className="checkbox__style checkbox__disactive"
-          ></label>
-        )}
+          ></label> */}
+        {/* )} */}
         <span className="checkbox__text">Короткометражки</span>
       </div>
     </section>

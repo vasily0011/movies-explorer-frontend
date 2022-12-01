@@ -1,5 +1,5 @@
 .header {
-  max-width: 1280px;
+  max-width: 1140px;
   height: 74px;
   display: flex;
   justify-content: space-between;
@@ -8,14 +8,14 @@
 
 @media screen and (max-width: 768px) {
   .header {
-    max-width: 768px;
+    max-width: 708px;
     margin: 0 30px 20px;
   }
 }
 
 @media screen and (max-width: 320px) {
   .header {
-    max-width: 320px;
+    max-width: 292px;
     margin: 0 14px 10px;
   }
 }
@@ -28,21 +28,21 @@
 
 .header__container {
   display: flex;
-  margin-top: 21px;
-  column-gap: 30px;
+  margin-top: 20px;
+  margin-bottom: 21px;
+  column-gap: 13px;
   align-items: center;
+  height: 30px;
 }
 
 @media screen and (max-width: 768px) {
   .header__container {
-    margin: 0;
+    margin-top: 21px;
   }
-  
 }
 
 .header__element {
   /* width: 77px; */
-  height: 32px;
   font-family: "Inter", Arial, sans-serif;
   font-weight: 500;
   font-size: 12px;
@@ -51,7 +51,15 @@
   text-decoration: none;
   display: flex;
   justify-content: center;
-  padding-top: 8px;
+}
+
+.header__element_link {
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.header__element_link:hover {
+  opacity: 0.5;
 }
 
 .header__element_button {
@@ -60,9 +68,14 @@
   background-color: black;
   border-radius: 3px;
   color: white;
+  align-items: center;
 }
 
-@media screen and (max-width: 779px) {
+.header__element_button:hover {
+  opacity: 0.5;
+}
+
+@media screen and (max-width: 768px) {
   .header__element_hidden {
     display: none;
   }
@@ -74,8 +87,6 @@
 @media screen and (max-width: 320px) {
   .header__container {
     column-gap: 14px;
-    margin: 0;
-    margin-left: 60px;
   }
 
   .header__element {
@@ -97,4 +108,6 @@
   background-image: url("../../images/profile_icon.svg");
   background-repeat: no-repeat;
   background-position: center;
+  background-color: #f9f9f9;
+  border-radius: 6px;
 }

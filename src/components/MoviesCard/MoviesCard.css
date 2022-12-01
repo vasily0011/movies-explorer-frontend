@@ -5,10 +5,14 @@
   height: 281px;
   border-radius: 6px;
   background-color: #fdfdfd;
+  box-shadow: rgba(0, 0, 0, 0.08);
+}
+
+.card__content {
+  box-shadow: rgba(0, 0, 0, 0.08);
 }
 
 .card__image {
-  width: 100%;
   max-width: 364px;
   height: 203px;
   border-radius: 10px 10px 0 0;

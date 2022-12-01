@@ -1,4 +1,4 @@
-import { Route, useLocation } from "react-router-dom";
+import { Route, useLocation, Switch } from "react-router-dom";
 import Header from "../Header/Header.js";
 import Main from "../Main/Main.js";
 import Movies from "../Movies/Movies.js";
@@ -21,30 +21,29 @@ function App() {
       ) : (
         ""
       )}
-      {/* <Switch> */}
+      <Switch>
         <Route path="/signin">
           <Login />
         </Route>
         <Route path="/signup">
           <Register />
         </Route>
-
-        <Route exact path="/">
-          <Main />
-        </Route>
-        <Route exact path="/movies">
+        <Route path="/movies">
           <Movies />
         </Route>
-        <Route exact path="/saved-movies">
+        <Route path="/saved-movies">
           <SavedMovies />
         </Route>
-        <Route exact path="/profile">
+        <Route path="/profile">
           <Profile />
+        </Route> 
+        <Route exact path="/">
+          <Main />
         </Route>
         <Route path="*">
           <PageNotFound />
         </Route>
-      {/* </Switch> */}
+      </Switch>
     </div>
     // </CurrentUserContext.Provider>
   );
