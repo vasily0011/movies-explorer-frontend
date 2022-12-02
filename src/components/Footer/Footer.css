@@ -1,20 +1,21 @@
 .footer {
+  width: 100%;
   max-width: 1140px;
   height: 172px;
-  padding: 0 70px;
+  /* padding: 0 70px; */
+  margin: 0 auto;
+
 }
 
 @media screen and (max-width: 768px) {
   .footer {
-    max-width: 768px;
-    padding: 0 30px;
+    max-width: 708px;
   }
 }
 
 @media screen and (max-width: 320px) {
   .footer {
     max-width: 300px;
-    padding: 0 10px;
   }
 }
 
@@ -35,7 +36,7 @@
     border-bottom: 1px solid #e8e8e8;
     font-size: 12px;
     line-height: 15px;
-    padding-top: 59px;
+    padding-top: 79px;
   }
 }
 

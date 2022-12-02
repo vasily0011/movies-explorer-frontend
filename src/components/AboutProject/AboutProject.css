@@ -1,20 +1,19 @@
 .about-project {
-  max-width: 1280px;
+  max-width: 1140px;
   height: 608px;
-  margin: 0 70px;
+  margin: 0 auto;
 }
 
 @media screen and (max-width: 768px) {
   .about-project {
-    max-width: 768px;
-    margin: 0 50px;
+    max-width: 668px;
+    height: 585px;
   }
 }
 
 @media screen and (max-width: 320px) {
   .about-project {
     max-width: 284px;
-    margin: 0 18px;
     height: 641px;
   }
 }
@@ -32,12 +31,15 @@
 
 @media screen and (max-width: 768px) {
   .section__title {
+    max-width: 668px;
     padding: 90px 0 23px;
+    margin: 0 auto;
   }
 }
 
 @media screen and (max-width: 320px) {
   .section__title {
+    max-width: 292px;
     padding: 70px 0 28px;
     font-size: 18px;
     line-height: 22px;
@@ -89,7 +91,6 @@
   margin: 0;
   font-family: "Inter", Arial, sans-serif;
   font-weight: 400;
-  font-style: Regular;
   font-size: 20px;
   line-height: 24px;
   letter-spacing: -0.04em;

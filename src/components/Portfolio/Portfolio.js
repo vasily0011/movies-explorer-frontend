@@ -15,8 +15,8 @@ function Portfolio() {
         <p className="portfolio__arrow">↗</p>
         </a>
       </li>
-      <li className="portfolio__item">
-        <a className="portfolio__link" href="https://github.com/vasily0011/react-mesto-api-full" target="_blank" rel="noreferrer">
+      <li className="portfolio__item portfolio__item_last" >
+        <a className="portfolio__link portfolio__link_last" href="https://github.com/vasily0011/react-mesto-api-full" target="_blank" rel="noreferrer">
         Одностраничное приложение
         <p className="portfolio__arrow">↗</p>
         </a>

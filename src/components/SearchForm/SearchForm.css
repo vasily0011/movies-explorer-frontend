@@ -14,12 +14,14 @@
   .search-form {
     padding-top: 70px;
     justify-content: center;
+    max-width: 292px;
   }
   
 }
 
 .search-form__input {
-  width: 1086px;
+  width: 100%;
+  max-width: 1086px;
   /* height: 50px; */
   padding: 0;
   border-radius: 8px;
@@ -42,14 +44,14 @@
 
 @media screen and (max-width: 768px) {
   .search-form__input {
-    width: 654px;
+    max-width: 654px;
   }
 }
 
 @media screen and (max-width: 320px) {
   .search-form__input {
-    width: 238px;
-    padding-left: 13px;
+    max-width: 238px;
+    /* padding-left: 13px; */
   }
 }
 
@@ -61,6 +63,7 @@
   border: none;
   padding: 0;
   margin-left: 10px;
+  border-radius: 5px;
 }
 
 .search-form__button:hover {

@@ -3,6 +3,7 @@
   justify-content: center;
   text-decoration: none;
   margin-top: 151px;
+  padding: 0;
   padding-bottom: 30px;
   gap: 10px;
 }
@@ -17,7 +18,6 @@
 @media screen and (max-width: 320px) {
   .navtab {
     margin-top: 212px;
-    padding: 0;
   }
 }
 
@@ -31,7 +31,7 @@
   color: white;
   font-size: 12px;
   font-weight: 500;
-  line-height: 110%;
+  line-height: 16px;
   text-decoration: none;
   align-items: center;
   justify-content: center;

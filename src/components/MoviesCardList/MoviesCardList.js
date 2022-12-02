@@ -6,7 +6,7 @@ function MoviesCardList(props) {
     const { pathname } = useLocation();
 
     return (
-        <section className="moviescards">
+        <section className="moviescards moviescards_saved">
             <ul className="movies__list">
                 {films.map((film) => (
                         <MoviesCard

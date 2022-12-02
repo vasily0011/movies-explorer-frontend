@@ -23,7 +23,7 @@
   }
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 370px) {
     .movies__list {
       grid-template-columns: repeat(1, 1fr);
       /* column-gap: 14px; */
@@ -53,9 +53,24 @@
   border-radius: 6px;
 }
 
+
+.moviescards_saved {
+  margin-bottom: 247px;
+}
+
+@media screen and (max-width: 768px) {
+  .moviescards_saved {
+    margin-bottom: 170px;
+  }
+}
+
 @media screen and (max-width: 320px) {
     .movies__button {
-        margin: 61px auto 89px;
+        margin: 50px auto 80px;
         max-width: 300px;
+    }
+
+    .moviescards_saved {
+      margin-bottom: 166px;
     }
 }

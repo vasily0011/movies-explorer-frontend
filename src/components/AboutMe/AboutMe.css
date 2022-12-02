@@ -8,10 +8,6 @@
     max-width: 768px;
     padding: 0 50px;
   }
-
-  #about-me {
-    padding-top: 70px;
-  }
 }
 
 @media screen and (max-width: 320px) {
@@ -27,10 +23,10 @@
   padding-top: 66px;
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 430px) {
   .about-me__container {
-padding-top: 60px;
-flex-direction: column-reverse;
+    padding-top: 60px;
+    flex-direction: column-reverse;
   }
 }
 
@@ -58,7 +54,7 @@ flex-direction: column-reverse;
 
 .about-me__description {
   margin: 0;
-  padding: 26px 0 56px;
+  padding: 26px 0 99px;
   font-family: "Inter", Arial, sans-serif;
   font-weight: 400;
   font-size: 14px;
@@ -129,5 +125,4 @@ flex-direction: column-reverse;
     line-height: 16px;
     padding-bottom: 40px;
   }
-
 }

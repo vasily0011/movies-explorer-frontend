@@ -13,6 +13,7 @@
 }
 
 .card__image {
+  width: 100%;
   max-width: 364px;
   height: 203px;
   border-radius: 10px 10px 0 0;
@@ -20,7 +21,7 @@
 
 @media screen and (max-width: 768px) {
   .card {
-    width: 339px;
+    max-width: 339px;
     height: 262px;
   }
 
@@ -75,6 +76,12 @@
   padding-top: 17px;
   margin: 0;
   color: #a0a0a0;
+}
+
+@media screen and (max-width: 370px) {
+  .card__duration {
+    padding-top: 14px;
+  }
 }
 
 .card__button {
