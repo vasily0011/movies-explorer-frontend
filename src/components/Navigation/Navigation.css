@@ -1,0 +1,25 @@
+.navbar {
+  display: flex;
+  margin-top: 28px;
+  column-gap: 16px;
+  padding-left: 72px;
+}
+
+.navbar__link {
+  text-decoration: none;
+  color: black;
+  font-family: "Inter", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.navbar__link:hover {
+  opacity: 0.5;
+}
+
+@media screen and (max-width: 768px) {
+  .navbar__link_hidden {
+    display: none;
+  }
+}

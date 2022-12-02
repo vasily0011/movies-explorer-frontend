@@ -1,0 +1,19 @@
+.login {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 396px;
+  }
+
+  .form__submit_login {
+    margin-top: 155px;
+  }
+
+  @media screen and (max-width: 320px) {
+    .login {
+        max-width: 260px;
+    }
+
+    .form__submit_login {
+        margin-top: 247px;
+      }
+}

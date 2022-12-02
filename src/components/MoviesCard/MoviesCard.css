@@ -1,0 +1,101 @@
+.card {
+  list-style-type: none;
+  width: 100%;
+  max-width: 364px;
+  height: 281px;
+  border-radius: 6px;
+  background-color: #fdfdfd;
+  box-shadow: rgba(0, 0, 0, 0.08);
+}
+
+.card__content {
+  box-shadow: rgba(0, 0, 0, 0.08);
+}
+
+.card__image {
+  width: 100%;
+  max-width: 364px;
+  height: 203px;
+  border-radius: 10px 10px 0 0;
+}
+
+@media screen and (max-width: 768px) {
+  .card {
+    max-width: 339px;
+    height: 262px;
+  }
+
+  .card__image {
+    max-width: 339px;
+    height: 190px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+    .card {
+      max-width: 300px;
+      height: 237px;
+    }
+  
+    .card__image {
+      max-width: 300px;
+      height: 168px;
+    }
+  }
+
+.card__description {
+  display: flex;
+  justify-content: space-between;
+  height: 46px;
+  padding: 16px;
+}
+
+@media screen and (max-width: 768px) {
+  .card__description {
+    height: 44px;
+    padding: 14px;
+  }
+}
+
+.card__title {
+  /* width: 100%; */
+  /* max-width: 290px; */
+  height: 16px;
+  margin: 0;
+  font-family: "Inter", Arial, sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+}
+
+.card__duration {
+  font-family: "Inter", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  padding-top: 17px;
+  margin: 0;
+  color: #a0a0a0;
+}
+
+@media screen and (max-width: 370px) {
+  .card__duration {
+    padding-top: 14px;
+  }
+}
+
+.card__button {
+  width: 30px;
+  height: 30px;
+  background-image: url(../../images/icon__like_active.svg);
+  background-repeat: no-repeat;
+  border: none;
+  background-position: center;
+  padding: 0;
+  background-color: white;
+  cursor: pointer;
+}
+
+.card__button_delete {
+  background-image: url(../../images/icon__delete_card.svg);
+}
