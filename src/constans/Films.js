@@ -2,13 +2,13 @@ export const films = [
     {
         id: 1,
         title: '33 слова о дизайне',
-        duration: '1ч 47м',
+        duration: '39м',
         image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU4s4IWhphrAJEeNuWuXeNgTEB-NFRcSHB9Q&usqp=CAU',
     },
     {
         id: 2,
         title: '33 слова о дизайне',
-        duration: '1ч 47м',
+        duration: '39м',
         image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU4s4IWhphrAJEeNuWuXeNgTEB-NFRcSHB9Q&usqp=CAU',
     },
     {
