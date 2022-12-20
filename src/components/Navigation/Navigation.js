@@ -42,7 +42,7 @@ function Navigation(props) {
           </Link>
         )}
         {location.pathname === "/movies" && (
-          <Link className="header__element header__element_hidden header__element_link" to="/signup">
+          <Link className="header__element header__element_hidden header__element_link" to="/profile">
             Аккаунт
           </Link>
         )}
@@ -55,7 +55,7 @@ function Navigation(props) {
           <Link className="header__profile header__profile_hidden"></Link>
         )}
         {location.pathname === "/saved-movies" && (
-          <Link className="header__element header__element_hidden header__element_link" to="/signup">
+          <Link className="header__element header__element_hidden header__element_link" to="/profile">
             Аккаунт
           </Link>
         )}

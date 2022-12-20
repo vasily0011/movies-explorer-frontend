@@ -1,12 +1,27 @@
 import { Link } from "react-router-dom";
 import headerLogo from "../../images/header_logo.svg";
+import { useFormWithValidation } from "../FormValidation/FormValidation";
 
-function Register() {
+function Register({onRegister}) {
+  const { values, handleChange, errors, isValid } = useFormWithValidation();
+
+  const handleInputValue = (e) => {
+    handleChange(e);
+  }
+  
+  const handleSubmitForm = (e) => {
+    e.preventDefault()
+    onRegister(values.email, values.name, values.password)
+  }
+  
+
   return (
     <section className="register">
       <img src={headerLogo} alt="логотип" className="login__logo" />
       <h1 className="title">Добро пожаловать!</h1>
-      <form className="form">
+      <form className="form" noValidate
+       onSubmit={handleSubmitForm}
+       >
         <div className="form__inputs">
           <p className="form__text">Имя</p>
           <input
@@ -15,32 +30,41 @@ function Register() {
             name="name"
             minLength="2"
             maxLength="30"
+            value={values.name || ""}
+            onChange={handleInputValue}
+            pattern="^(?=.{2,30}$)[A-Za-zа-яА-ЯёЁ/\s/-]*$"
             required
           ></input>
-          <span className="form__span form__span_error"></span>
+          <span className="form__span form__span_error">{errors.name}</span>
         </div>
         <div className="form__inputs">
           <p className="form__text">E-mail</p>
           <input
             className="form__input"
             placeholder="pochta@yandex.ru"
-            name="email"
+            name="email" 
+            value={values.email || ""}
+            onChange={handleInputValue}
+            type="email"
+            pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
+            required
           ></input>
-          <span className="form__span form__span_error"></span>
+          <span className="form__span form__span_error">{errors.email}</span>
         </div>
         <div className="form__inputs">
           <p className="form__text">Пароль</p>
           <input
             className="form__input"
-            type="password"
-            placeholder="Введите пароль"
-            name="password"
+            type="password" 
+            placeholder="Введите пароль" 
+            name="password" 
+            value={values.password || ""}
+            onChange={handleInputValue}
+            required
           ></input>
-          <span className="form__span form__span_error">
-            Что то пошло не так...
-          </span>
+          <span className="form__span form__span_error">{errors.password}</span>
         </div>
-        <button className="form__submit" type="submit">
+        <button className={`form__submit ${!isValid && 'form__submit_error'}`}  type="submit">
           Зарегистрироваться
         </button>
         <div className="login__links">
