@@ -1,80 +1,97 @@
 import { useLocation } from "react-router-dom";
 import MoviesCard from "../MoviesCard/MoviesCard";
-import useWindowSize from '../../utils/useWindowSize'
-import { useState } from "react";
+import useWindowSize from "../../utils/useWindowSize";
+import { useState, useEffect } from "react";
+import { DEVICE_PARAMS } from "../../constans/constans";
 
-function MoviesCardList(props) {
-    const { pathname } = useLocation();
-    const size = useWindowSize();
-    const [showCardList, setShowCardList] = useState([]);
+function MoviesCardList({
+  moviesList,
+  savedMoviesList,
+  onLikeClick,
+  onDeleteClick,
+}) {
+  const screenWidth = useWindowSize();
 
-  function loadMovies() {
-    let count;
-    if (size.width >= 1280) {
-     count = 3
-    } else if (size.width >= 768) {
-     count = 2
-    } else if (size.width >= 320) {
-     count = 1
+  const { desktop, tablet, mobile } = DEVICE_PARAMS;
+  const [isMount, setIsMount] = useState(true);
+  const [showMovieList, setShowMovieList] = useState([]);
+  const [cardsShowDetails, setCardsShowDetails] = useState({
+    total: 12,
+    more: 3,
+  });
+
+  const location = useLocation();
+  // количество отображаемых карточек при разной ширине экрана
+  useEffect(() => {
+    if (location.pathname === "/movies") {
+      if (screenWidth > desktop.width) {
+        setCardsShowDetails(desktop.cards);
+      } else if (screenWidth <= desktop.width && screenWidth > mobile.width) {
+        setCardsShowDetails(tablet.cards);
+      } else {
+        setCardsShowDetails(mobile.cards);
+      }
+      return () => setIsMount(false);
     }
-}
+  }, [screenWidth, isMount, desktop, tablet, mobile, location.pathname]);
 
-function getSavedMovieCard(arr, id) {
+  // изменяем отображаемый массив фильмов в зависимости от ширины экрана
+  useEffect(() => {
+    if (moviesList.length) {
+      const res = moviesList.filter((item, i) => i < cardsShowDetails.total);
+      setShowMovieList(res);
+    }
+  }, [moviesList, cardsShowDetails.total]);
+
+  // добавление карточек при клике по кнопке "Еще"
+  function handleClickMoreMovies() {
+    const start = showMovieList.length;
+    const end = start + cardsShowDetails.more;
+    const additional = moviesList.length - start;
+
+    if (additional > 0) {
+      const newCards = moviesList.slice(start, end);
+      setShowMovieList([...showMovieList, ...newCards]);
+    }
+  }
+
+  // cравнение сохраненных фильмов
+  function getSavedMovieCard(arr, movie) {
     return arr.find((item) => {
-      return item.movieId === id;
+      return item.movieId === (movie.id || movie.movieId);
     });
   }
 
-// ф-ия создания массива стандартных карточек
-function getInitialMoviesPage() {
-    return showCardList.map((item) => {
-      const isCardSaved = getSavedMovieCard(props.savedMovies, item.id);
-      // получение ID карты в формате базы сохраненных фильмов
-      const savedCardId = isCardSaved ? isCardSaved._id : null;
-      return (
-        <MoviesCard
-          key={item.id}
-          card={{
-            _id: savedCardId,
-            country: item.country,
-            director: item.director,
-            duration: item.duration,
-            year: item.year,
-            description: item.description,
-            trailerLink: item.trailerLink,
-            nameRU: item.nameRU,
-            nameEN: item.nameEN,
-            movieId: item.id,
-            image: `https://api.nomoreparties.co${item.image.url}`,
-            thumbnail: `https://api.nomoreparties.co${item.image.formats.thumbnail.url}`}}
-        //   onLike={onLike}
-        //   onDelete={onDelete}
-          liked={isCardSaved ? true : false}
-        //   savedPage={savedMoviesPage}
-        />)
-    })
-  }
+  return (
+    <section className="moviescards moviescards_saved">
+      <ul className="movies__list">
+        {showMovieList.map((movie) => (
+          <MoviesCard
+            key={movie.id || movie._id}
+            saved={getSavedMovieCard(savedMoviesList, movie)}
+            onLikeClick={onLikeClick}
+            onDeleteClick={onDeleteClick}
+            movie={movie}
+          />
+        ))}
+      </ul>
 
-
-    return (
-        <section className="moviescards moviescards_saved">
-            <ul className="movies__list">
-                {item.map((film) => (
-                        <MoviesCard
-                            key={ film.id }
-                            film= {film}
-                    />
-                ))}
-            </ul>
-
-            {item.length > 0 && pathname !== '/saved-movies' && (
-                    <div className="movies__button-container">
-                        <button className="movies__button" type="button" name="more">Ещё</button>
-                    </div>
-                )
-            }
-        </section>
-    );
+      {location.pathname === "/movies" &&
+        showMovieList.length >= 5 &&
+        showMovieList.length < moviesList.length && (
+          <div className="movies__button-container">
+            <button
+              className="movies__button"
+              type="button"
+              name="more"
+              onClick={handleClickMoreMovies}
+            >
+              Ещё
+            </button>
+          </div>
+        )}
+    </section>
+  );
 }
 
 export default MoviesCardList;

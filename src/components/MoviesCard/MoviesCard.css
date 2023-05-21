@@ -32,16 +32,16 @@
 }
 
 @media screen and (max-width: 320px) {
-    .card {
-      max-width: 300px;
-      height: 237px;
-    }
-  
-    .card__image {
-      max-width: 300px;
-      height: 168px;
-    }
+  .card {
+    max-width: 300px;
+    height: 237px;
   }
+
+  .card__image {
+    max-width: 300px;
+    height: 168px;
+  }
+}
 
 .card__description {
   display: flex;
@@ -87,13 +87,21 @@
 .card__button {
   width: 30px;
   height: 30px;
-  background-image: url(../../images/icon__like_active.svg);
+  /* background-image: url(../../images/icon__like_disactive.svg); */
   background-repeat: no-repeat;
   border: none;
   background-position: center;
   padding: 0;
   background-color: white;
   cursor: pointer;
+}
+
+.card__button_like {
+  background-image: url(../../images/icon__like_disactive.svg);
+}
+
+.card__button_like-active {
+  background-image: url(../../images/icon__like_active.svg);
 }
 
 .card__button_delete {

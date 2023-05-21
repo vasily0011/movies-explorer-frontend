@@ -1,93 +1,143 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from "react";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
-import MoviesApi from '../../utils/MoviesApi';
-import { filterMovies, filterShortMovies } from '../../utils/utils';
+import MoviesApi from "../../utils/MoviesApi";
+import {
+  filterMovies,
+  filterShortMovies,
+  transformMovies,
+} from "../../utils/utils";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import Preloader from "../Preloader/Preloader";
 
-function Movies(props) {
+function Movies({ savedMoviesList, onLikeClick }) {
+  const currentUser = useContext(CurrentUserContext);
 
-  const existQuery = localStorage.getItem('searchQuery')
-  const existSearch = JSON.parse(localStorage.getItem('searchedMovies'));
-  const [searchQuery, setSearchQuery] = useState(existQuery ? existQuery : '');
-  const [checkboxValue, setCheckboxValue] = useState(false);
-  const [allMovies, setAllMovies] = useState([]);
-  const [isSavedSearchedMovie, setIsSavedSearchedMovie] = useState(existSearch? true: false);
-  const [filteredMovies, setFilteredMovies] = useState([]);
-  const [isNothingFound, setIsNothingFound] = useState(false);
+  const [initialMovies, setInitialMovies] = useState([]); // фильмы полученные с запроса
+  const [filteredMovies, setFilteredMovies] = useState([]); // отфильтрованные по чекбоксу и запросу фильмы
+  const [checkboxValue, setCheckboxValue] = useState(false); //состояние чекбокса
+  const [allMovies, setAllMovies] = useState([]); // все фильмы от сервера
+  const [isNothingFound, setIsNothingFound] = useState(false); // если ничего не найдено
+  const [loading, setLoading] = useState(false);
 
-  // const [inputValue, setInputValue] = useState("");
-  // const [searchActive, setSearchActive] = useState(false);
-
-  function handleCheckboxValueChange () {
+  // состояние чекбокса
+  function handleCheckboxValueChange() {
     setCheckboxValue(!checkboxValue);
-    // if (inputValue) {
-    //   setSearchActive(false)
-    //   ShowFilms(inputValue)
-    // } else {
-    //   setSearchActive(true)
-    // }
+    if (!checkboxValue) {
+      setFilteredMovies(filterShortMovies(initialMovies));
+    } else {
+      setFilteredMovies(initialMovies);
+    }
+    localStorage.setItem(
+      `${currentUser.email} - checkboxValue`,
+      !checkboxValue
+    );
   }
 
-  // обработчик установки значения, когда ничего не найдено
-  function handleCheckFilteredMovies(arr) {
-    arr.length === 0 ? setIsNothingFound(true) : setIsNothingFound(false);
-	}
+  // проверка чекбокса в локальном хранилище
+  useEffect(() => {
+    if (
+      localStorage.getItem(`${currentUser.email} - checkboxValue`) === "true"
+    ) {
+      setCheckboxValue(true);
+    } else {
+      setCheckboxValue(false);
+    }
+  }, [currentUser]);
 
-   // обработчик отправки формы
-   function handleSearchSubmit(value) {
-    // setIsMoviesLoaging(true);
-    setSearchQuery(value);
-    localStorage.setItem('searchQuery', value);
+  // поиск по массиву и установка состояния
+  function handleSetFilteredMovies(movies, userQuery, shortMoviesCheckbox) {
+    const moviesList = filterMovies(movies, userQuery, shortMoviesCheckbox);
+    if (moviesList.length === 0) {
+      setIsNothingFound(true);
+    } else {
+      setIsNothingFound(false);
+    }
+    setInitialMovies(moviesList);
+    setFilteredMovies(
+      shortMoviesCheckbox ? filterShortMovies(moviesList) : moviesList
+    );
+    localStorage.setItem(
+      `${currentUser.email} - movies`,
+      JSON.stringify(moviesList)
+    );
+  }
 
-    if (!allMovies.length) {
-      // console.log("Cтейт allMovies пустой")
+  // поиск по запросу
+  function handleSearchSubmit(inputValue) {
+    localStorage.setItem(`${currentUser.email} - movieSearch`, inputValue);
+    localStorage.setItem(`${currentUser.email} - checkboxValue`, checkboxValue);
+
+    if (allMovies.length === 0) {
+      setLoading(true);
       MoviesApi.getAllMovies()
-        .then((data) => {
-          setAllMovies(data);
-          setIsSavedSearchedMovie(false)
-          localStorage.setItem('allMovies', JSON.stringify(data)); // тестово
-          handleSetFilteredMovies(data, value);
+        .then((movies) => {
+          setAllMovies(movies);
+          handleSetFilteredMovies(
+            transformMovies(movies),
+            inputValue,
+            checkboxValue
+          );
         })
         .catch((err) => {
-          // setIsError(true);
-          console.log(err);
+          console.log(err)
         })
-        // .finally(() =>
-        //  setIsMoviesLoaging(false)
-        //  )
+        .finally(() => setLoading(false));
     } else {
-      // console.log("allMovies имеет данные")
-      handleSetFilteredMovies(allMovies, value);
-      // setIsMoviesLoaging(false);
+      handleSetFilteredMovies(allMovies, inputValue, checkboxValue);
     }
   }
 
-  function handleSetFilteredMovies (movies, query) {
-    const moviesList = filterMovies(movies, query, checkboxValue); // все фильмы по запросу
-    // сохраняем с учетом переключателя shortFilms
-    filterShortMovie(moviesList)
-    localStorage.setItem('searchedMovies', JSON.stringify(moviesList));
-  }
+  useEffect(() => {
+    if (localStorage.getItem(`${currentUser.email} - movies`)) {
+      const movies = JSON.parse(
+        localStorage.getItem(`${currentUser.email} - movies`)
+      );
+      setInitialMovies(movies);
+      if (
+        localStorage.getItem(`${currentUser.email} - CheckboxValue`) === 'true'
+      ) {
+        setFilteredMovies(filterShortMovies(movies));
+      } else {
+        setFilteredMovies(movies);
+      }
+    }
+  }, [currentUser]);
 
-   // ф-я фильтрации массива и установки его в хранилище и стейт
-   function filterShortMovie (arr) {
-    setFilteredMovies(checkboxValue === true ? filterShortMovies(arr) : arr);
-    // console.log(arr, filteredMovies)
-  }
-
-
+   // рендер фильмов из локального хранилища
+   useEffect(() => {
+    if (localStorage.getItem(`${currentUser.email} - movies`)) {
+      const movies = JSON.parse(
+        localStorage.getItem(`${currentUser.email} - movies`)
+      );
+      setInitialMovies(movies);
+      if (
+        localStorage.getItem(`${currentUser.email} - shortMovies`) === 'true'
+      ) {
+        setFilteredMovies(filterShortMovies(movies));
+      } else {
+        setFilteredMovies(movies);
+      }
+    }
+  }, [currentUser]);
 
   return (
     <>
       <section className="movies">
-        <SearchForm 
-         checkboxValue={checkboxValue}
-         checkboxOnChange={handleCheckboxValueChange}
-         onSearchClick={handleSearchSubmit}
+        <SearchForm
+          checkboxValue={checkboxValue}
+          checkboxOnChange={handleCheckboxValueChange}
+          onSearchClick={handleSearchSubmit}
         />
+        { loading && <Preloader /> }
+        {!isNothingFound && (
         <MoviesCardList
-        isEmptyList={isNothingFound} />
+          savedMoviesList={savedMoviesList}
+          moviesList={filteredMovies}
+          onLikeClick={onLikeClick}
+        />
+        )}
       </section>
       <Footer />
     </>

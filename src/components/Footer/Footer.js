@@ -5,7 +5,7 @@ function Footer() {
         Учебный проект Яндекс.Практикум х BeatFilm.
       </h3>
       <div className="footer__container">
-        <p className="footer__copyright">&copy; 2022</p>
+        <p className="footer__copyright">&copy; 2023</p>
         <nav className="footer__nav">
           <a
             className="footer__nav-link"

@@ -16,17 +16,19 @@ import Login from "../Login/Login.js";
 import PageNotFound from "../PageNotFound/PageNotFound.js";
 import MainApi from "../../utils/MainApi.js";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
-import ProtectedRoute from "../ProtectedRoute/ProtectedRoute.js"
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute.js";
+
 function App() {
   const location = useLocation();
   const history = useHistory();
   const mainApi = new MainApi();
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
+  const [savedMoviesList, setSavedMoviesList] = useState([]);
   // const [currentUser, setCurrentUser] = useState({_id: '', name: '', email: ''});
 
   useEffect(() => {
-    const token = localStorage.getItem('jwt');
+    const token = localStorage.getItem("jwt");
     if (token) {
       // handleGetMovies();
       handleGetUser(token);
@@ -34,20 +36,20 @@ function App() {
       handleSignOut();
       // setIsLoaderPage(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
- function handleGetUser(token) {
-  mainApi
-  .getUserInfo(token)
-  .then((userData) => {
-    setLoggedIn(true);
-    setCurrentUser(userData);
-  })
-  .catch((err) => {
-    console.log(err)
-    handleSignOut();
-  });
+  function handleGetUser(token) {
+    mainApi
+      .getUserInfo(token)
+      .then((userData) => {
+        setLoggedIn(true);
+        setCurrentUser(userData);
+      })
+      .catch((err) => {
+        console.log(err);
+        handleSignOut();
+      });
   }
 
   // useEffect(() => {
@@ -68,7 +70,8 @@ function App() {
   // }, []);
 
   function handleSubmitRegister(email, name, password) {
-    mainApi.register(email, name, password)
+    mainApi
+      .register(email, name, password)
       .then(() => {
         setLoggedIn(true);
         history.push("/movies");
@@ -81,7 +84,8 @@ function App() {
   }
 
   function handleSubmitLogin(password, email) {
-    mainApi.authorize(password, email)
+    mainApi
+      .authorize(password, email)
       .then((res) => {
         setLoggedIn(true);
         localStorage.setItem("jwt", res.token);
@@ -93,7 +97,8 @@ function App() {
   }
 
   function handleUpdateUser(name, email) {
-    mainApi.updateUserInfo(name, email)
+    mainApi
+      .updateUserInfo(name, email)
       .then((user) => {
         // setCurrentUser({_id: user._id, name: user.name, email: user.email});
         setCurrentUser(user);
@@ -103,7 +108,7 @@ function App() {
         console.log(err);
         alert("Ошибка редактирования");
       });
-  };
+  }
 
   function handleSignOut() {
     localStorage.clear();
@@ -113,7 +118,38 @@ function App() {
     history.push("/");
   }
 
+  // получение массива сохраненных фильмов
+  useEffect(() => {
+    if (loggedIn && currentUser) {
+      mainApi
+        .getSavedMovies()
+        .then((data) => {
+          const UserMoviesList = data.filter(
+            (m) => m.owner === currentUser._id
+          );
+          setSavedMoviesList(UserMoviesList);
+        })
+        .catch((err) => {
+          console.log(err);
+          alert(err);
+        });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser, loggedIn]);
+
+   // cохранение фильма
+   function handleSaveMovie(movie) {
+    mainApi
+      .addNewMovie(movie)
+      .then(newMovie => setSavedMoviesList([newMovie, ...savedMoviesList]))
+      .catch((err) => {
+        console.log(err);
+        alert(err);
+      });
+  }
+
   return (
+    
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         {location.pathname === "/movies" ||
@@ -134,35 +170,30 @@ function App() {
             {loggedIn ? <Redirect to="/movies" /> : <Redirect to="/signin" />}
           </Route>
           <ProtectedRoute
-                exact path='/movies'
-                loggedIn={loggedIn}
-                component={Movies}
-                // savedMoviesList={savedMovies}
-                // onLikeClick={handleSaveMovie}
-                // onDeleteClick={handleDeleteMovie}
-              />
+            exact
+            path="/movies"
+            loggedIn={loggedIn}
+            component={Movies}
+            savedMoviesList={savedMoviesList}
+            onLikeClick={handleSaveMovie}
+            // onDeleteClick={handleDeleteMovie}
+          />
           <ProtectedRoute
-                exact path='/saved-movies'
-                loggedIn={loggedIn}
-                component={SavedMovies}
-                // savedMoviesList={savedMovies}
-                // onDeleteClick={handleDeleteMovie}
-              />
-          {/* <Route>
-            <Profile path="/profile"
+            exact
+            path="/saved-movies"
+            loggedIn={loggedIn}
+            component={SavedMovies}
+            savedMoviesList={savedMoviesList}
+            // onDeleteClick={handleDeleteMovie}
+          />
+          <ProtectedRoute
+            exact
+            path="/profile"
             loggedIn={loggedIn}
             component={Profile}
-            onUpdateUser={handleUpdateUser}
             onSignOut={handleSignOut}
-             />
-          </Route> */}
-        <ProtectedRoute
-                exact path='/profile'
-                loggedIn={loggedIn}
-                component={Profile}
-                onSignOut={handleSignOut}
-                onUpdateUser={handleUpdateUser}
-              />
+            onUpdateUser={handleUpdateUser}
+          />
           <Route exact path="/">
             <Main />
           </Route>

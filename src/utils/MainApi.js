@@ -76,6 +76,45 @@ class MainApi {
     }).then(this._checkResponse);
   }
 
+  getSavedMovies() {
+    return fetch(`${baseUrl}/movies`, {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
+    }).then(this._checkResponse);
+  }
+
+  addNewMovie(data) {
+    return fetch(`${baseUrl}/movies`, {
+      method: 'POST',
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('jwt')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        country: data.country,
+        director: data.director,
+        duration: data.duration,
+        year: data.year,
+        description: data.description,
+        image: data.image,
+        trailerLink: data.trailerLink,
+        thumbnail: data.thumbnail,
+        movieId: data.id,
+        nameRU: data.nameRU,
+        nameEN: data.nameEN,
+      }),
+    }).then(this._checkResponse);
+  }
+
+  deleteMovie(data) {
+    return fetch(`${baseUrl}/movies/${data}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      },
+    }).then(res => this._requestResult(res));
+  }
 }
 
 export default MainApi;
